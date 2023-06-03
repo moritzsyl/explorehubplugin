@@ -1,0 +1,4 @@
+name: explorehubplugin
+version: '${project.version}'
+main: org.explorehubplugin.explorehubplugin.Explorehubplugin
+api-version: 1.19
