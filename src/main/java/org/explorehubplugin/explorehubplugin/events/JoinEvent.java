@@ -11,7 +11,7 @@ public class JoinEvent implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player p=e.getPlayer();
         p.getInventory().clear();
-        JoinInventory spawnInv=new JoinInventory();
+        JoinInventory spawnInv=new JoinInventory(p.hasPermission("explorehub.admin"));
         p.getInventory().setContents(spawnInv.getInventory().getContents());
     }
 }

@@ -11,13 +11,20 @@ import java.util.Collections;
 
 public class JoinInventory implements InventoryHolder {
     private Inventory inv;
-    public JoinInventory(){
+    public JoinInventory(boolean admin){
         inv= Bukkit.createInventory(this,36,"Inventory");
         init();
+        if(admin){
+            adminInit();
+        }
     }
     private void init(){
         ItemStack teleportMenu=Utility.createItem("§lTeleportMenu", Material.BOOK, Collections.singletonList("Opens TeleportMenu."));
         inv.setItem(3,teleportMenu);
+    }
+    private void adminInit(){
+        ItemStack deleteMenu=Utility.createItem("§c§lDeleteMenu",Material.DEAD_BUSH,Collections.singletonList("Delete Teleport Location."));
+        inv.setItem(5,deleteMenu);
     }
     @Override
     public Inventory getInventory(){return inv;}

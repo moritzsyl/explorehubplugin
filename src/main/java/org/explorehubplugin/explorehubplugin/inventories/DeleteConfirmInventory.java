@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.explorehubplugin.explorehubplugin.Utility;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -14,18 +15,18 @@ import java.util.List;
 
 public class DeleteConfirmInventory implements InventoryHolder {
     private Inventory inv;
-    public DeleteConfirmInventory(){
-        inv = Bukkit.createInventory(this,9,"Confirm Deletion of PLACEHOLDER");
-        init();
+    public DeleteConfirmInventory(String name){
+        inv = Bukkit.createInventory(this,9,"Confirm Deletion of "+name);
+        init(name);
     }
 
-    private void init(){
-        ItemStack accept = sharedMethods.createItem("§a§lYES", Material.LIME_STAINED_GLASS_PANE, Collections.singletonList("Yes I want to delete this point."));
-        ItemStack reject = sharedMethods.createItem("§c§lNO", Material.RED_STAINED_GLASS_PANE, Collections.singletonList("No I don't want to delete this point."));
+    private void init(String name){
+        ItemStack accept = Utility.createItem("§a§lYES", Material.LIME_STAINED_GLASS_PANE, Collections.singletonList("Yes I want to delete this point."));
+        ItemStack reject = Utility.createItem("§c§lNO", Material.RED_STAINED_GLASS_PANE, Collections.singletonList("No I don't want to delete this point."));
         List<String> infoLore = new ArrayList<>();
         infoLore.add("Do you want to delete this point?");
-        infoLore.add("PLACEHOLDER ITEMNAME");
-        ItemStack info = sharedMethods.createItem("§lDELETE?", Material.BOOK, infoLore);
+        infoLore.add(name);
+        ItemStack info = Utility.createItem("§lDELETE?", Material.BOOK, infoLore);
         for(int i=0;i<4;i++){
             inv.setItem(inv.firstEmpty(),accept);
         }
