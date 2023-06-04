@@ -13,7 +13,6 @@ public final class Explorehubplugin extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        // Plugin startup logic
         Bukkit.getLogger().info("Hello World!");
         this.registerCommands();
         //RIGHT HERE?

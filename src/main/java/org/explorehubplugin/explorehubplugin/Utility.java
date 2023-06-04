@@ -6,16 +6,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class Utility {
+public class Utility{
     private static ArrayList<TeleportLocation> tpls = new ArrayList<>();
     public static final String CHATPREFIX = ChatColor.GREEN+"["+ChatColor.DARK_AQUA+"ExploreHub"+ChatColor.GREEN+"] ";
     public static void broadcaststdout(String message){
@@ -42,22 +41,24 @@ public class Utility {
 
 
 
-    public static TeleportLocation createTeleportLocation(String name, String desc, String block, Location location){
+    public static TeleportLocation createTeleportLocation(String name, String desc, String block, Location location) throws IOException{
         TeleportLocation tpl = new TeleportLocation(name, desc, block, location);
         tpls.add(tpl);
+        Utility.saveTeleportLocations();
         return tpl;
     }
 
-    public static void deleteTeleportLocation(String name){
+    public static void deleteTeleportLocation(String name) throws IOException{
         for(TeleportLocation tpl : tpls){
             if(tpl.getName().equalsIgnoreCase(name)){
                 tpls.remove(tpl);
                 break;
             }
         }
+        Utility.saveTeleportLocations();
     }
 
-    public static TeleportLocation readTeleportLocation(String name){
+    public static TeleportLocation readTeleportLocation(String name) throws IOException{
         for(TeleportLocation tpl : tpls){
             if(tpl.getName().equalsIgnoreCase(name)){
                 return tpl;
@@ -66,7 +67,7 @@ public class Utility {
         return null;
     }
 
-    public static TeleportLocation updateTeleportLocation(String name, TeleportLocation newtpl){
+    public static TeleportLocation updateTeleportLocation(String name, TeleportLocation newtpl) throws IOException{
         for(TeleportLocation tpl : tpls){
             if(tpl.getName().equalsIgnoreCase(name)){
                 tpl.setDesc(newtpl.getDesc());
@@ -75,6 +76,7 @@ public class Utility {
                 tpl.setX(newtpl.getX());
                 tpl.setY(newtpl.getY());
                 tpl.setZ(newtpl.getZ());
+                Utility.saveTeleportLocations();
                 return tpl;
             }
         }
@@ -90,5 +92,17 @@ public class Utility {
         gson.toJson(tpls, writer);
         writer.flush();
         writer.close();
+    }
+
+    public static void loadTeleportLocations() throws IOException{
+        File file = new File(Explorehubplugin.getPlugin().getDataFolder().getAbsolutePath() + "/teleportlocations.json");
+        file.getParentFile().mkdir();
+        file.createNewFile();
+        Gson gson = new Gson();
+        String text = "";
+        FileReader reader = new FileReader(file);
+        gson.toString();
+        reader.read();
+        reader.close();
     }
 }

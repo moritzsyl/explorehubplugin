@@ -1,25 +1,13 @@
 package org.explorehubplugin.explorehubplugin.commands;
 
-import com.google.common.io.ByteStreams;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.explorehubplugin.explorehubplugin.TeleportLocation;
 import org.explorehubplugin.explorehubplugin.Utility;
-import org.json.simple.JSONObject;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 public class setteleportlocation implements CommandExecutor{
     /**
@@ -38,9 +26,9 @@ public class setteleportlocation implements CommandExecutor{
         if(errors.size() == 0){
             if(player.hasPermission("explorehub.admin")){
                 try{
-                    this.saveteleportlocation(new TeleportLocation(args[0], args[1], args[2], player.getLocation()));
+                    Utility.createTeleportLocation(args[0], args[1], args[2], player.getLocation());
                 } catch(IOException exc){
-                    Utility.stderror(player, "Failed to save specified location"+exc);
+                    Utility.stderror(player, "Failed to save specified location "+exc);
                     return true;
                 }
                 Utility.stdout(player, "A new teleport location was created");
@@ -68,28 +56,6 @@ public class setteleportlocation implements CommandExecutor{
             Utility.stderror(player, errmsg);
             return true;
         }
-    }
-
-    public void saveteleportlocation(TeleportLocation tpl) throws IOException{
-        JSONObject parent = new JSONObject();
-        JSONObject child = new JSONObject();
-        JSONObject vectorparams = new JSONObject();
-
-        vectorparams.put("vectorX", tpl.getDirection().getX());
-        vectorparams.put("vectorY", tpl.getDirection().getY());
-        vectorparams.put("vectorZ", tpl.getDirection().getZ());
-
-        child.put("description", tpl.getDesc());
-        child.put("locationX", tpl.getX());
-        child.put("locationY", tpl.getY());
-        child.put("locationZ", tpl.getZ());
-        child.put("direction", vectorparams);
-        child.put("block", tpl.getBlock());
-
-        parent.put(tpl.getName(), child);
-
-        // TODO: in json speichern
-
     }
 
     public ArrayList<Integer> checkArgs(String[] args){
