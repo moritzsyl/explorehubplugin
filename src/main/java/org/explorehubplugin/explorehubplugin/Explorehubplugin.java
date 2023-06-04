@@ -6,6 +6,9 @@ import org.explorehubplugin.explorehubplugin.commands.DeleteConfirmTest;
 import org.explorehubplugin.explorehubplugin.commands.MenuTest;
 import org.explorehubplugin.explorehubplugin.commands.setteleportlocation;
 import org.explorehubplugin.explorehubplugin.events.InventoryEvents;
+import org.explorehubplugin.explorehubplugin.events.JoinEvent;
+
+import java.io.IOException;
 
 public final class Explorehubplugin extends JavaPlugin {
 
@@ -24,6 +27,7 @@ public final class Explorehubplugin extends JavaPlugin {
         }
         //RIGHT HERE?
         getServer().getPluginManager().registerEvents(new InventoryEvents(),this);
+        getServer().getPluginManager().registerEvents(new JoinEvent(),this);
     }
 
     @Override

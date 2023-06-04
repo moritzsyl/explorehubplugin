@@ -8,9 +8,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.explorehubplugin.explorehubplugin.Utility;
 import org.explorehubplugin.explorehubplugin.commands.DeleteConfirmTest;
 import org.explorehubplugin.explorehubplugin.inventories.DeleteConfirmInventory;
+import org.explorehubplugin.explorehubplugin.inventories.JoinInventory;
 import org.explorehubplugin.explorehubplugin.inventories.TeleportMenuInventory;
 
 import java.util.concurrent.Executor;
@@ -37,6 +39,9 @@ public class InventoryEvents implements Listener {
                     return;
                 }
             }
+        }
+        if(e.getClickedInventory().getHolder() instanceof PlayerInventory){
+            e.setCancelled(true);
         }
     }
     @EventHandler
