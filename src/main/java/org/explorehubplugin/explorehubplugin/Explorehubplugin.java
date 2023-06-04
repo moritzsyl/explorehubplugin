@@ -2,8 +2,6 @@ package org.explorehubplugin.explorehubplugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.explorehubplugin.explorehubplugin.commands.DeleteConfirmTest;
-import org.explorehubplugin.explorehubplugin.commands.MenuTest;
 import org.explorehubplugin.explorehubplugin.commands.setteleportlocation;
 import org.explorehubplugin.explorehubplugin.events.InventoryEvents;
 import org.explorehubplugin.explorehubplugin.events.JoinEvent;
@@ -40,8 +38,6 @@ public final class Explorehubplugin extends JavaPlugin {
     }
 
     private void registerCommands(){
-        this.getCommand("menu").setExecutor(new MenuTest(this));
         this.getCommand("setteleportlocation").setExecutor(new setteleportlocation());
-        this.getCommand("deleteconfirmtest").setExecutor(new DeleteConfirmTest());
     }
 }

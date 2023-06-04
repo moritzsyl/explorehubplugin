@@ -4,16 +4,17 @@ import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.json.simple.JSONObject;
-
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import java.io.*;
 import java.util.*;
 
 public class Utility {
     private static ArrayList<TeleportLocation> tpls = new ArrayList<>();
-    public static final String CHATPREFIX = ChatColor.GREEN+"["+ChatColor.DARK_AQUA+"ExploreHub"+ChatColor.GREEN+"] ";
+    public static final String CHATPREFIX = ChatColor.DARK_AQUA+"["+ChatColor.DARK_PURPLE+"HeavyMC"+ChatColor.DARK_AQUA+"] ";
     public static void broadcaststdout(String message){
         for (Player player : Bukkit.getOnlinePlayers()){
             player.sendMessage(Utility.CHATPREFIX+ChatColor.YELLOW+message);
@@ -92,5 +93,16 @@ public class Utility {
             TeleportLocation[] l = gson.fromJson(reader, TeleportLocation[].class);
             tpls = new ArrayList<>(Arrays.asList(l));
         }
+    }
+
+
+
+    public static ItemStack createItem(String name, Material mat, List<String> lore){
+        ItemStack item=new ItemStack(mat,1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 }
