@@ -9,6 +9,7 @@ import org.explorehubplugin.explorehubplugin.events.InventoryEvents;
 
 public final class Explorehubplugin extends JavaPlugin {
 
+
     private static Explorehubplugin plugin;
     @Override
     public void onEnable() {
@@ -16,6 +17,11 @@ public final class Explorehubplugin extends JavaPlugin {
         // Plugin startup logic
         Bukkit.getLogger().info("Hello World!");
         this.registerCommands();
+        try {
+            Utility.loadTeleportLocations();
+        }catch (IOException exc){
+            Utility.broadcaststdout("Failed to load teleport locations");
+        }
         //RIGHT HERE?
         getServer().getPluginManager().registerEvents(new InventoryEvents(),this);
     }
