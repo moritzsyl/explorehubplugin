@@ -15,14 +15,14 @@ public class TeleportLocation implements Serializable {
     private int y;
     private int z;
 
-    public TeleportLocation(String name, Location location){
+    public TeleportLocation(String name, Location location) throws IOException{
         this(name, "description", "GRASS", location.getDirection(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
-    public TeleportLocation(String name, String desc, String block, Location location){
+    public TeleportLocation(String name, String desc, String block, Location location) throws IOException{
         this(name, desc, block, location.getDirection(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
-    public TeleportLocation(String name, String desc, String block, Vector direction, int x, int y, int z){
+    public TeleportLocation(String name, String desc, String block, Vector direction, int x, int y, int z) throws IOException{
         this.setName(name);
         this.setDesc(desc);
         this.setBlock(block);
@@ -32,24 +32,33 @@ public class TeleportLocation implements Serializable {
         this.setZ(z);
     }
 
-    public void setName(String name){
-        if(name != null){
+    public void setName(String name) throws IOException{
+        if(name != null && name != " "){
             this.name = name;
+        }
+        else{
+            this.name = "defaultname";
+            throw  new IOException("Invalid name");
         }
     }
 
-    public void setDesc(String desc){
+    public void setDesc(String desc) throws IOException{
         if(desc != null){
             this.desc = desc;
         }
+        else {
+            this.desc = "default";
+            throw new IOException("Invalid description");
+        }
     }
 
-    public void setBlock(String block){
+    public void setBlock(String block) throws IOException{
         try{
             Material.valueOf(block.toUpperCase());
             this.block = block.toUpperCase();
         } catch (IllegalArgumentException exc){
             this.block = "GRASS";
+            throw new IOException("Invalid block");
         }
     }
 

@@ -4,19 +4,17 @@ import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import java.io.*;
+import java.util.*;
 
-public class Utility{
+public class Utility {
     private static ArrayList<TeleportLocation> tpls = new ArrayList<>();
-    public static final String CHATPREFIX = ChatColor.GREEN+"["+ChatColor.DARK_AQUA+"ExploreHub"+ChatColor.GREEN+"] ";
+    public static final String CHATPREFIX = ChatColor.DARK_AQUA+"["+ChatColor.DARK_PURPLE+"HeavyMC"+ChatColor.DARK_AQUA+"] ";
     public static void broadcaststdout(String message){
         for (Player player : Bukkit.getOnlinePlayers()){
             player.sendMessage(Utility.CHATPREFIX+ChatColor.YELLOW+message);
@@ -30,16 +28,9 @@ public class Utility{
         sender.sendMessage(Utility.CHATPREFIX+ChatColor.GRAY+message);
     }
 
-    public static HashMap<String, TeleportLocation> getLocations(){
-        HashMap<String, TeleportLocation> locations = new HashMap<>();
-        return locations;
+    public static ArrayList<TeleportLocation> getTpls(){
+        return tpls;
     }
-    public static void getLocationNames(){
-        HashSet<String> locationnames = new HashSet<>();
-    }
-
-
-
 
     public static TeleportLocation createTeleportLocation(String name, String desc, String block, Location location) throws IOException{
         TeleportLocation tpl = new TeleportLocation(name, desc, block, location);
@@ -52,13 +43,13 @@ public class Utility{
         for(TeleportLocation tpl : tpls){
             if(tpl.getName().equalsIgnoreCase(name)){
                 tpls.remove(tpl);
+                Utility.saveTeleportLocations();
                 break;
             }
         }
-        Utility.saveTeleportLocations();
     }
 
-    public static TeleportLocation readTeleportLocation(String name) throws IOException{
+    public static TeleportLocation readTeleportLocation(String name){
         for(TeleportLocation tpl : tpls){
             if(tpl.getName().equalsIgnoreCase(name)){
                 return tpl;
@@ -95,14 +86,23 @@ public class Utility{
     }
 
     public static void loadTeleportLocations() throws IOException{
-        File file = new File(Explorehubplugin.getPlugin().getDataFolder().getAbsolutePath() + "/teleportlocations.json");
-        file.getParentFile().mkdir();
-        file.createNewFile();
         Gson gson = new Gson();
-        String text = "";
-        FileReader reader = new FileReader(file);
-        gson.toString();
-        reader.read();
-        reader.close();
+        File file = new File(Explorehubplugin.getPlugin().getDataFolder().getAbsolutePath() + "/teleportlocations.json");
+        if(file.exists()){
+            FileReader reader = new FileReader(file);
+            TeleportLocation[] l = gson.fromJson(reader, TeleportLocation[].class);
+            tpls = new ArrayList<>(Arrays.asList(l));
+        }
+    }
+
+
+
+    public static ItemStack createItem(String name, Material mat, List<String> lore){
+        ItemStack item=new ItemStack(mat,1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 }
