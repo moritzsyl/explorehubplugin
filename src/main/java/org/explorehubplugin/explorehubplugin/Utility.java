@@ -12,6 +12,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Die Klasse beinhaltet statische Methoden und Attribute welche über das gesamte Projekt öfter gebraucht werden.
+ * @author Moritz Syllaba
+ * @version 2023-06-05
+ */
 public class Utility {
     private static ArrayList<TeleportLocation> tpls = new ArrayList<>();
     public static final String CHATPREFIX = ChatColor.DARK_AQUA+"["+ChatColor.DARK_PURPLE+"HeavyMC"+ChatColor.DARK_AQUA+"] ";

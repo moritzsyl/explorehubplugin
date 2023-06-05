@@ -5,17 +5,7 @@ api-version: 1.19
 commands:
   setteleportlocation:
     description: Creates a teleport Location at your current position.
-    usage: /setteleportlocation [Name] [Description] [Block]
-
-  menu:
-    description: Opens a custom Menu, doesn't work.
-    usage: /menu
-  deletemenu:
-    description: Opens a custom Menu, deletes selected item, not implementes
-    usage: /deletemenu
-  deleteconfirmtest:
-    description: tests the deleteconfirmmenu
-    usage: /deleteconfirmtest
+    usage: /setteleportlocation [Name] A single word [Description] A String of words [Block] A valid Minecraft block
 permissions:
   explorehub.admin:
     description: "admin"

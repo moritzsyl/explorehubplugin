@@ -16,6 +16,18 @@ public class setteleportlocation implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
         //Falls Befehl von Konsole ausgegeben wird
+        if(!(sender instanceof Player)){
+            Utility.stderror(sender, "You must be an Player to run commands!");
+            return true;
+        }
+
+        for(TeleportLocation l : Utility.getTpls()){
+            if(l.getName().equals(args[0])){
+                Utility.stderror(sender, "Specified name already exists for another TeleportLocation, choose a diffrent name");
+                return true;
+            }
+        }
+
         String s = "";
         for(int i = 0; i < args.length - 1; i++){
             s = s + args[i] + " ";
@@ -28,19 +40,11 @@ public class setteleportlocation implements CommandExecutor{
         }
         String[] nargs = new String[]{args[0], s.substring(args[0].length() + 1, s.indexOf(args[args.length - 1]) - 1), args[args.length - 1]};
 
-
-        if(!(sender instanceof Player)){
-            Utility.stderror(sender, "You must be an Player to run commands!");
-            return true;
-        }
         Player player = (Player) sender;
         if(Utility.getTpls().size() <= 54){
                 if(player.hasPermission("explorehub.admin")){
                     try{
                         Utility.createTeleportLocation(nargs[0], nargs[1], nargs[2], player.getLocation());
-                        for(TeleportLocation l : Utility.getTpls()){
-                            Utility.stdout(player, l.getName());
-                        }
                     } catch(IOException exc){
                         Utility.stderror(player, "Failed to save specified location "+exc);
                         return true;

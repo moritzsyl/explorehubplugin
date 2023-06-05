@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -14,16 +15,41 @@ import org.explorehubplugin.explorehubplugin.TeleportLocation;
 import org.explorehubplugin.explorehubplugin.Utility;
 import org.explorehubplugin.explorehubplugin.inventories.DeleteConfirmInventory;
 import org.explorehubplugin.explorehubplugin.inventories.TeleportMenuInventory;
-
 import java.io.IOException;
 
 // FIXME: Error with deleting/teleporting maps if two players act at the same time
+
+/**
+ * Die Klasse implementiert verschiedene Eventhandler welche verschiedene Aktionen in Bezug auf
+ * das GUI nicht möblich bzw. möglich machen.
+ * @author Tobias Gorunovic
+ * @author Moritz Syllaba
+ * @version 2023-06-05
+ */
 public class InventoryEvents implements Listener {
     private boolean delete;
     private String currentItemInDeletionSelection;
+
+    /**
+     * Alle User außer Admins sollen, die Inventar Items (toter Busch und Buch) nicht droppen können.
+     * Die Methode implementiert genau das.
+     * @param e PlayerDropItemEvent.
+     */
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e){
         if(!(e.getPlayer().hasPermission("explorehub.admin"))){
+            e.setCancelled(true);
+        }
+    }
+
+    /**
+     * Kein Spieler soll den toten Busch (delete Menu) als Block platzieren können.
+     * Die Methode verhindert genau das.
+     * @param e BlockPlaceEvent.
+     */
+    @EventHandler
+    public void onPlayerPlaceItem(BlockPlaceEvent e){
+        if(e.getItemInHand().getType() == Material.DEAD_BUSH){
             e.setCancelled(true);
         }
     }
@@ -43,15 +69,15 @@ public class InventoryEvents implements Listener {
                 if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
                     try {
                         Utility.deleteTeleportLocation(currentItemInDeletionSelection);
-                        Utility.stdout(player, "YES SELECTED, "+currentItemInDeletionSelection+" is deleted.");
+                        Utility.stdout(player, "Yes selected, "+currentItemInDeletionSelection+" was deleted");
                     } catch (IOException ex) {
-                        Utility.stderror(player, "ERROR: YES SELECTED, "+currentItemInDeletionSelection+" is not deleted.");
+                        Utility.stderror(player, "ERROR: Yes selected, "+currentItemInDeletionSelection+" was not deleted");
                         throw new RuntimeException(ex);
                     }
                     currentItemInDeletionSelection=null;
                     player.closeInventory();
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
-                    Utility.stdout(player, "NO SELECTED, "+currentItemInDeletionSelection+" is not deleted.");
+                    Utility.stdout(player, "No selected, "+currentItemInDeletionSelection+" was not deleted");
                     currentItemInDeletionSelection=null;
                     player.closeInventory();
                 } else if (e.getCurrentItem().getType() == Material.BOOK) {
@@ -97,5 +123,6 @@ public class InventoryEvents implements Listener {
             TeleportMenuInventory TMIGui=new TeleportMenuInventory();
             p.openInventory(TMIGui.getInventory());
         }
+
     }
 }

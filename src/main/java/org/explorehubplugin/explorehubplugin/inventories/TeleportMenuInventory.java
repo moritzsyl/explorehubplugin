@@ -6,10 +6,14 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.explorehubplugin.explorehubplugin.Utility;
-
-import java.io.File;
 import java.util.Collections;
 
+/**
+ * Die Klasse erzeugt ein GUI für die Liste der verfügbaren TeleportLocations.
+ * Über dieses Menu können sicher User zu einer der Locations teleportieren.
+ * @author Tobias Gorunovic
+ * @version 2023-06-05
+ */
 public class TeleportMenuInventory implements InventoryHolder {
     private Inventory inv;
 

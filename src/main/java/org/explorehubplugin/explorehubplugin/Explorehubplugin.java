@@ -5,11 +5,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.explorehubplugin.explorehubplugin.commands.setteleportlocation;
 import org.explorehubplugin.explorehubplugin.events.InventoryEvents;
 import org.explorehubplugin.explorehubplugin.events.JoinEvent;
-
 import java.io.IOException;
 
+/**
+ * Die Klasse dient als "Hauptklass" und initialisiert in den Methoden onEnable (Serverstart) und onDisable (Serverstop)
+ * Commands, Pfade oder auch die Liste an TeleportLocations.
+ * @author Moritz Syllaba
+ * @author Tobias Gorunovic
+ * @version 2023-06-05
+ */
 public final class Explorehubplugin extends JavaPlugin {
-
 
     private static Explorehubplugin plugin;
     @Override

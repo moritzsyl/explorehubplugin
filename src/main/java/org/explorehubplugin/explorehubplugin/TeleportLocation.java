@@ -5,6 +5,12 @@ import org.bukkit.util.Vector;
 import org.bukkit.Material;
 import java.io.*;
 
+/**
+ * Die Klasse stellt ein TeleportLocation Objekt dar. Eine Location wird durch name, beschreibung, mcblock, direction, x, y, z.
+ * Das Programm arbeitet anhand einer Liste von TeleportLocations.
+ * @author Moritz Syllaba
+ * @version 2023-06-05
+ */
 public class TeleportLocation implements Serializable {
     private String name;
     private String desc;
