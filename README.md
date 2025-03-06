@@ -4,6 +4,6 @@ Minecraft Java Edition Plugin to explore a world by setting teleport locations f
 
 create and manage teleport locations, teleport
 
-implementation started using PaperMC API
+implementation started using PaperMC API, basic functionality
 
 abandoned
